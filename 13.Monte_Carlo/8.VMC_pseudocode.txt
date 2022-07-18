@@ -1,0 +1,30 @@
+
+fun first_VMC ( S = States,Actions = A ) :
+
+    # matrix N
+    C [ States , Actions ] = all cells are 0 # count_sum
+    R [ States , Actions ] = all cells are 0 # recursive_sum
+
+    for ep in episodes :
+        
+        for combo ( s,a ) € into ep :
+
+            # get only the first combo ,
+            # then skip error iterations ( again )
+            # That is First-visit, but what is better
+            # First-visit or Every-visit
+
+            # global count memory
+            C [ s,a ] <- C [ s,a ] + 1
+
+            # global value memory
+            R [ s,a ] <- R [ s,a ] +
+              sum_Reward_from_future_to_Now ( ep , s , a )
+
+    # it reminds me NLP from Google ( no tf course )
+
+    Q = Q_table [ States , Actions ] = all cells are 0
+
+    for   s,a in combo ( s,a ) :
+           Q = Q_table ( s,a ) <- R [ s,a ] / C [ s,a ]
+    return Q
